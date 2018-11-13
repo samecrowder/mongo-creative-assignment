@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var blacklist = ["Click for a random joke"];
+
 router.get('/', function(req, res, next) {
    res.send('index.html'); 
 });
@@ -21,15 +23,22 @@ var db = mongoose.connection;
 });
 
 router.post('/jokes', function(req, res, next) {
-    console.log("POSTING A JOKE");
-    console.log(req.body);
+    var jokeValue = req.body['json'];
+    
+    if(!blacklist.includes(jokeValue)) {
+        var joke = new Joke({ Joke: jokeValue});
+        joke.save(function (err) {
+            if (err) return handleError(err);
+            console.log("Saved new joke!");
+        });
+    }
 });
 
 router.get('/jokes', function(req, res, next) {
     Joke.find(function(err, jokeList) {
       if (err) return console.error(err);
       else {
-        res.json(jokeList); 
+            res.json(jokeList); 
       }
     });
 });

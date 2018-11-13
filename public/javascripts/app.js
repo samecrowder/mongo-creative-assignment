@@ -1,8 +1,4 @@
 function mainCtrl ($scope) {
-    $scope.jokes = "<li>stuff</li>";
-    
-    $("#jokesList").html($scope.jokes);
-     
     $scope.getJoke = function() {
         var myURL = "http://api.icndb.com/jokes/random/exclude[explicit]";
         var name = $('#joke-name').val().split(' ');
@@ -27,22 +23,33 @@ function mainCtrl ($scope) {
             url: "jokes",
             method: "POST",
             dataType: "json",
-            data: { json: $("#output").html() },
-            success: function(parsed_json) {
-                console.log("Successful joke post");
-            }
+            data: { json: $("#output").html() }
         });
         
+        $scope.getAllJokes();
+    }
+    
+    $scope.getAllJokes = function() {
         $.ajax({
             url: "jokes",
             dataType: "json",
+            method: "GET",
             success: function(parsed_json) {
-                console.log(parsed_json);
+                $scope.updateJokesList(parsed_json);
             }
-        })
-        
-        $("#jokesList").html($scope.jokes);
+        });
     }
+    
+    $scope.updateJokesList = function(parsed_json) {
+        var newJokesList = "";
+        var i;
+        for(i = 0; i < parsed_json.length; i++) {
+            newJokesList += "<li>" + parsed_json[i]['Joke'] + "</li>";
+        }
+        $("#jokesList").html(newJokesList);
+    }
+    
+    $scope.getAllJokes();
 }
 
 angular.module('app', []).controller('mainCtrl', mainCtrl);
