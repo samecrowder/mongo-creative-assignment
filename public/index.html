@@ -1,1 +1,86 @@
-<p>Hello from index.html</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        
+        <div class="container">
+            <div class="row padding-xl">
+                <div class="title-box">
+                    <div class="title-text">Welcome to the Chuck Norris Joke Generator</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well clearfix">
+                        <blockquote>
+                            <p id="output">Click for a random joke</p>
+                            <footer>
+                                Chuck Norris
+                                <cite title="Source Title">Internet Database</cite>
+                            </footer>
+                            <div class="row vertical-align name-input-row">
+                                <div class="col-sm-6 nopadding">
+                                    <p class="fright" style="margin-right:2em;">Enter any name here to replace 'Chuck Norris'</p>
+                                </div>
+                                <div class="col-sm-6 nopadding">
+                                    <input id="joke-name" type="text" value="Chuck Norris">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 fleft">
+                                    <button class="btn btn-success" id="getjoke">New Joke</button>
+                                </div>
+                                <div class="col-md-6 fright">
+                                    <a id="twitter" data-size="large" target="_blank">
+                                        <button type="button" class="btn btn-primary">
+                                            Tweet Joke!
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function() {
+                $("#getjoke").click(function(e){
+                   e.preventDefault();
+                   var myURL = "http://api.icndb.com/jokes/random/exclude[explicit]";
+                   var name = $('#joke-name').val().split(' ');
+                   var firstName = name[0];
+                   var lastName = name[1];
+                   myURL += "?firstName=" + firstName;
+                   myURL += "&lastName=" + lastName;
+                   console.log(myURL);
+                   $.ajax({
+                        url : myURL,
+                        dataType : "json",
+                        success : function(parsed_json) {
+                            var joke = parsed_json['value']['joke'];
+                            console.log(joke);
+                            $("#output").html(joke);
+                        }
+                    });
+                });
+                
+                $("#twitter").on("click", function(){
+                    var textJoke = $("#output").text();
+                    $(this).attr("href", 'https://twitter.com/intent/tweet?text=' + textJoke);
+                });
+            });
+        </script>
+    </body>
+</html>

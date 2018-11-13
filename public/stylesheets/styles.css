@@ -1,0 +1,46 @@
+.title-box {
+    background-color: black;
+    border: 2px solid white;
+    display: table;
+    margin: 1em auto 1em auto;
+    padding: 0.5em;
+}
+
+.title-text {
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 200%;
+}
+
+body { 
+    background-image: url('west-view.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+}
+
+.fright{
+    float: right;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.fleft{
+    float: left;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.name-input-row {
+    margin: 2em 0 2em 50em;
+}
